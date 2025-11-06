@@ -1,0 +1,64 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>
+      SoundChecker
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">SoundChecker</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <div class="container">
+    <div class="sound-meter">
+      <h1>音量レベル</h1>
+      <div class="sound-level-display">
+        <ion-text [color]="getSoundLevelColor()">
+          <h2>{{ soundLevel }}</h2>
+        </ion-text>
+        <ion-badge [color]="getSoundLevelColor()">
+          {{ getSoundLevelText() }}
+        </ion-badge>
+      </div>
+
+      <ion-progress-bar 
+        [value]="soundLevel / 100" 
+        [color]="getSoundLevelColor()">
+      </ion-progress-bar>
+
+      <div class="button-group">
+        <ion-button 
+          *ngIf="!isListening" 
+          expand="block" 
+          (click)="startListening()"
+          color="primary">
+          <ion-icon slot="start" name="mic"></ion-icon>
+          測定開始
+        </ion-button>
+
+        <ion-button 
+          *ngIf="isListening" 
+          expand="block" 
+          (click)="stopListening()"
+          color="danger">
+          <ion-icon slot="start" name="stop-circle"></ion-icon>
+          測定停止
+        </ion-button>
+      </div>
+    </div>
+
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>使い方</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <p>「測定開始」ボタンを押して、周囲の音量を測定します。</p>
+        <p>マイクへのアクセスを許可してください。</p>
+      </ion-card-content>
+    </ion-card>
+  </div>
+</ion-content>
