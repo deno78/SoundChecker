@@ -5,6 +5,10 @@
 
 GitHub Pagesで公開中: [https://deno78.github.io/SoundChecker/](https://deno78.github.io/SoundChecker/)
 
+![QRコード](src/assets/qr-code.png)
+
+スマートフォンでアクセスする場合は、上記のQRコードをスキャンしてください。
+
 ## 概要
 
 SoundCheckerは、Ionicフレームワークを使用したWebアプリケーションです。デバイスのマイクを使って周囲の音量をリアルタイムで測定できます。
