@@ -8,7 +8,6 @@ import { Component } from '@angular/core';
 export class HomePage {
   soundLevel: number = 0;
   isListening: boolean = false;
-  soundDetected: boolean = false; // 音が検知されたかどうか
 
   // 音量レベルの閾値定数
   private readonly SOUND_THRESHOLD = 30;  // 音が検知されたと判断する閾値
@@ -40,11 +39,6 @@ export class HomePage {
         const average = dataArray.reduce((a, b) => a + b) / dataArray.length;
         this.soundLevel = Math.round(average);
 
-        // 音量が一定以上の場合は音が検知されたとする
-        if (this.soundLevel >= this.SOUND_THRESHOLD) {
-          this.soundDetected = true;
-        }
-
         requestAnimationFrame(detectSound);
       };
 
@@ -58,7 +52,6 @@ export class HomePage {
   stopListening() {
     this.isListening = false;
     this.soundLevel = 0;
-    this.soundDetected = false;
   }
 
   getSoundLevelColor(): string {
@@ -77,8 +70,8 @@ export class HomePage {
   // 円の色クラスを取得（青色→暖色）
   getCircleColorClass(): string {
     if (!this.isListening) return 'circle-blue'; // 待機中は青色
-    if (!this.soundDetected) return 'circle-blue'; // 音が検知されていない場合は青色
-    // 音が検知されたら音量に応じて暖色に変化
+    // リアルタイムの音量レベルに応じて色を変化
+    if (this.soundLevel < this.SOUND_THRESHOLD) return 'circle-blue'; // 音量が低い場合は青色
     if (this.soundLevel < this.LOUD_THRESHOLD) return 'circle-warm'; // 普通の音量は暖色（オレンジ）
     return 'circle-hot'; // うるさい場合は赤色
   }
