@@ -8,6 +8,7 @@ import { Component } from '@angular/core';
 export class HomePage {
   soundLevel: number = 0;
   isListening: boolean = false;
+  soundDetected: boolean = false; // 音が検知されたかどうか
 
   constructor() {}
 
@@ -35,6 +36,11 @@ export class HomePage {
         const average = dataArray.reduce((a, b) => a + b) / dataArray.length;
         this.soundLevel = Math.round(average);
 
+        // 音量が一定以上（30以上）の場合は音が検知されたとする
+        if (this.soundLevel >= 30) {
+          this.soundDetected = true;
+        }
+
         requestAnimationFrame(detectSound);
       };
 
@@ -48,6 +54,7 @@ export class HomePage {
   stopListening() {
     this.isListening = false;
     this.soundLevel = 0;
+    this.soundDetected = false;
   }
 
   getSoundLevelColor(): string {
@@ -57,8 +64,18 @@ export class HomePage {
   }
 
   getSoundLevelText(): string {
+    if (!this.isListening) return '待機中';
     if (this.soundLevel < 30) return '静か';
     if (this.soundLevel < 60) return '普通';
     return 'うるさい';
+  }
+
+  // 円の色クラスを取得（青色→暖色）
+  getCircleColorClass(): string {
+    if (!this.isListening) return 'circle-blue'; // 待機中は青色
+    if (!this.soundDetected) return 'circle-blue'; // 音が検知されていない場合は青色
+    // 音が検知されたら音量に応じて暖色に変化
+    if (this.soundLevel < 60) return 'circle-warm'; // 普通の音量は暖色（オレンジ）
+    return 'circle-hot'; // うるさい場合は赤色
   }
 }
