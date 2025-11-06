@@ -10,6 +10,10 @@ export class HomePage {
   isListening: boolean = false;
   soundDetected: boolean = false; // 音が検知されたかどうか
 
+  // 音量レベルの閾値定数
+  private readonly SOUND_THRESHOLD = 30;  // 音が検知されたと判断する閾値
+  private readonly LOUD_THRESHOLD = 60;   // うるさいと判断する閾値
+
   constructor() {}
 
   async startListening() {
@@ -36,8 +40,8 @@ export class HomePage {
         const average = dataArray.reduce((a, b) => a + b) / dataArray.length;
         this.soundLevel = Math.round(average);
 
-        // 音量が一定以上（30以上）の場合は音が検知されたとする
-        if (this.soundLevel >= 30) {
+        // 音量が一定以上の場合は音が検知されたとする
+        if (this.soundLevel >= this.SOUND_THRESHOLD) {
           this.soundDetected = true;
         }
 
@@ -58,15 +62,15 @@ export class HomePage {
   }
 
   getSoundLevelColor(): string {
-    if (this.soundLevel < 30) return 'success';
-    if (this.soundLevel < 60) return 'warning';
+    if (this.soundLevel < this.SOUND_THRESHOLD) return 'success';
+    if (this.soundLevel < this.LOUD_THRESHOLD) return 'warning';
     return 'danger';
   }
 
   getSoundLevelText(): string {
     if (!this.isListening) return '待機中';
-    if (this.soundLevel < 30) return '静か';
-    if (this.soundLevel < 60) return '普通';
+    if (this.soundLevel < this.SOUND_THRESHOLD) return '静か';
+    if (this.soundLevel < this.LOUD_THRESHOLD) return '普通';
     return 'うるさい';
   }
 
@@ -75,7 +79,7 @@ export class HomePage {
     if (!this.isListening) return 'circle-blue'; // 待機中は青色
     if (!this.soundDetected) return 'circle-blue'; // 音が検知されていない場合は青色
     // 音が検知されたら音量に応じて暖色に変化
-    if (this.soundLevel < 60) return 'circle-warm'; // 普通の音量は暖色（オレンジ）
+    if (this.soundLevel < this.LOUD_THRESHOLD) return 'circle-warm'; // 普通の音量は暖色（オレンジ）
     return 'circle-hot'; // うるさい場合は赤色
   }
 }
