@@ -1,6 +1,10 @@
 # SoundChecker
 簡易的に音量を測るためのアプリ
 
+## デモ
+
+GitHub Pagesで公開中: [https://deno78.github.io/SoundChecker/](https://deno78.github.io/SoundChecker/)
+
 ## 概要
 
 SoundCheckerは、Ionicフレームワークを使用したWebアプリケーションです。デバイスのマイクを使って周囲の音量をリアルタイムで測定できます。

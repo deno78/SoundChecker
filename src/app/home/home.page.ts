@@ -9,6 +9,10 @@ export class HomePage {
   soundLevel: number = 0;
   isListening: boolean = false;
 
+  // 音量レベルの閾値定数
+  private readonly SOUND_THRESHOLD = 30;  // 音が検知されたと判断する閾値
+  private readonly LOUD_THRESHOLD = 60;   // うるさいと判断する閾値
+
   constructor() {}
 
   async startListening() {
@@ -51,14 +55,24 @@ export class HomePage {
   }
 
   getSoundLevelColor(): string {
-    if (this.soundLevel < 30) return 'success';
-    if (this.soundLevel < 60) return 'warning';
+    if (this.soundLevel < this.SOUND_THRESHOLD) return 'success';
+    if (this.soundLevel < this.LOUD_THRESHOLD) return 'warning';
     return 'danger';
   }
 
   getSoundLevelText(): string {
-    if (this.soundLevel < 30) return '静か';
-    if (this.soundLevel < 60) return '普通';
+    if (!this.isListening) return '待機中';
+    if (this.soundLevel < this.SOUND_THRESHOLD) return '静か';
+    if (this.soundLevel < this.LOUD_THRESHOLD) return '普通';
     return 'うるさい';
+  }
+
+  // 円の色クラスを取得（青色→暖色）
+  getCircleColorClass(): string {
+    if (!this.isListening) return 'circle-blue'; // 待機中は青色
+    // リアルタイムの音量レベルに応じて色を変化
+    if (this.soundLevel < this.SOUND_THRESHOLD) return 'circle-blue'; // 音量が低い場合は青色
+    if (this.soundLevel < this.LOUD_THRESHOLD) return 'circle-warm'; // 普通の音量は暖色（オレンジ）
+    return 'circle-hot'; // うるさい場合は赤色
   }
 }

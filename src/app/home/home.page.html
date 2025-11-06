@@ -15,20 +15,13 @@
 
   <div class="container">
     <div class="sound-meter">
-      <h1>音量レベル</h1>
-      <div class="sound-level-display">
-        <ion-text [color]="getSoundLevelColor()">
-          <h2>{{ soundLevel }}</h2>
-        </ion-text>
-        <ion-badge [color]="getSoundLevelColor()">
-          {{ getSoundLevelText() }}
-        </ion-badge>
+      <!-- 大きな丸いラベルを中央に表示 -->
+      <div class="circular-label" [ngClass]="getCircleColorClass()">
+        <div class="label-content">
+          <div class="sound-level-number">{{ soundLevel }}</div>
+          <div class="sound-level-text">{{ getSoundLevelText() }}</div>
+        </div>
       </div>
-
-      <ion-progress-bar 
-        [value]="soundLevel / 100" 
-        [color]="getSoundLevelColor()">
-      </ion-progress-bar>
 
       <div class="button-group">
         <ion-button 
