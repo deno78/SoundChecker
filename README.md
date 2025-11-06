@@ -63,7 +63,7 @@ npm run build
 ## 技術スタック
 
 - **フレームワーク**: Ionic 8
-- **フロントエンド**: Angular 20
+- **フロントエンド**: Angular 18
 - **スタイリング**: SCSS
 - **デプロイ**: GitHub Pages + GitHub Actions
 
